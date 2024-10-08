@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My CV</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>THE CURRICULU VINTAE</h1>
+        <h2>       OF          </h2>
+        <h2>MOGOFE SILVESTER</h3>
+        <nav>
+            <ul>
+              
+              
+              
+      
+                
+            </ul>
+        </nav>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/styles.css">
+    <title>Edit Personal Info</title>
+</head>
+<body>
+    <header>
+        <h1>Personal Information</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="education.html">Education</a></li>
+                <li><a href="work.html">Work Experience</a></li>
+                <li><a href="skills.html">Skills</a></li>
+                <li><a href="projects.html">Projects</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <div id="personal-info">
+            <h2>Your Details</h2>
+            <p id="display-name"></p>
+            <p id="display-email"></p>
+            <p id="display-phone"></p>
+            <p id="display-bio"></p>
+            <button id="edit-btn">Edit</button>
+        </div>
+
+        <form id="editPersonalForm" style="display:none;">
+            <input type="text" name="name" id="name" placeholder="Name" required>
+            <input type="email" name="email" id="email" placeholder="Email" required>
+            <input type="text" name="phone" id="phone" placeholder="Phone" required>
+            <textarea name="bio" id="bio" placeholder="Short Bio" required></textarea>
+            <button type="submit">Update</button>
+            <button type="button" id="cancel-btn">Cancel</button>
+        </form>
+    </main>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Fetch current personal info and populate the display
+        fetch('/api/personal_info')
+            .then(response => response.json())
+            .then(data => {
+                if (data.length) {
+                    document.getElementById('display-name').textContent = data[0].name;
+                    document.getElementById('display-email').textContent = data[0].email;
+                    document.getElementById('display-phone').textContent = data[0].phone;
+                    document.getElementById('display-bio').textContent = data[0].bio;
+                    
+                    // Populate the form fields
+                    document.getElementById('name').value = data[0].name;
+                    document.getElementById('email').value = data[0].email;
+                    document.getElementById('phone').value = data[0].phone;
+                    document.getElementById('bio').value = data[0].bio;
+                }
+            });
+
+        // Show the edit form when the Edit button is clicked
+        document.getElementById('edit-btn').addEventListener('click', function() {
+            document.getElementById('personal-info').style.display = 'none';
+            document.getElementById('editPersonalForm').style.display = 'block';
+        });
+
+        // Handle form submission
+        document.getElementById('editPersonalForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const updatedInfo = {
+                id: 1, // Assuming you know the ID
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                bio: document.getElementById('bio').value
+            };
+            fetch('/api/personal_info', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(updatedInfo)
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert('Personal info updated successfully!');
+                location.reload(); // Reload the page to show updated info
+            });
+        });
+
+        // Cancel editing
+        document.getElementById('cancel-btn').addEventListener('click', function() {
+            document.getElementById('editPersonalForm').style.display = 'none';
+            document.getElementById('personal-info').style.display = 'block';
+        });
+    });
+    </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/styles.css">
+    <title>Edit Personal Info</title>
+</head>
+<body>
+    <header>
+        <h1>Edit CV</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="personal.html">Personal Info</a></li>
+                <li><a href="qualifications.html">Qualifications</a></li>
+                <li><a href="work.html">Work Experience</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section id="personal-info">
+            <h2>Your Personal Details</h2>
+            <p id="display-name"></p>
+            <p id="display-email"></p>
+            <p id="display-phone"></p>
+            <p id="display-bio"></p>
+            <button id="edit-btn">Edit</button>
+        </section>
+
+        <form id="editPersonalForm" style="display:none;">
+            <input type="text" name="name" id="name" placeholder="Name" required>
+            <input type="email" name="email" id="email" placeholder="Email" required>
+            <input type="text" name="phone" id="phone" placeholder="Phone" required>
+            <textarea name="bio" id="bio" placeholder="Short Bio" required></textarea>
+            <button type="submit">Update</button>
+            <button type="button" id="cancel-btn">Cancel</button>
+        </form>
+    </main>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Fetch current personal info
+        fetch('/api/personal_info')
+            .then(response => response.json())
+            .then(data => {
+                if (data.length) {
+                    document.getElementById('display-name').textContent = `Name: ${data[0].name}`;
+                    document.getElementById('display-email').textContent = `Email: ${data[0].email}`;
+                    document.getElementById('display-phone').textContent = `Phone: ${data[0].phone}`;
+                    document.getElementById('display-bio').textContent = `Bio: ${data[0].bio}`;
+                    
+                    // Populate the form fields
+                    document.getElementById('name').value = data[0].name;
+                    document.getElementById('email').value = data[0].email;
+                    document.getElementById('phone').value = data[0].phone;
+                    document.getElementById('bio').value = data[0].bio;
+                }
+            });
+
+        // Show the edit form
+        document.getElementById('edit-btn').addEventListener('click', function() {
+            document.getElementById('personal-info').style.display = 'none';
+            document.getElementById('editPersonalForm').style.display = 'block';
+        });
+
+        // Handle form submission
+        document.getElementById('editPersonalForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const updatedInfo = {
+                id: 1, // Assuming this is the ID for the personal info
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                bio: document.getElementById('bio').value
+            };
+            fetch('/api/personal_info', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(updatedInfo)
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert('Personal info updated successfully!');
+                location.reload(); // Reload to show updated info
+            });
+        });
+
+        // Cancel editing
+        document.getElementById('cancel-btn').addEventListener('click', function() {
+            document.getElementById('editPersonalForm').style.display = 'none';
+            document.getElementById('personal-info').style.display = 'block';
+        });
+    });
+    </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/styles.css">
+    <title>Edit Qualifications</title>
+</head>
+<body>
+    <header>
+        <h1>Edit Qualifications</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="personal.html">Personal Info</a></li>
+                <li><a href="qualifications.html">Qualifications</a></li>
+                <li><a href="work.html">Work Experience</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section id="qualifications-info">
+            <h2>Your Qualifications</h2>
+            <ul id="qualification-list"></ul>
+            <button id="edit-qual-btn">Edit</button>
+        </section>
+
+        <form id="editQualificationForm" style="display:none;">
+            <input type="text" name="qualification" id="qualification" placeholder="Qualification" required>
+            <button type="submit">Update</button>
+            <button type="button" id="cancel-qual-btn">Cancel</button>
+        </form>
+    </main>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Fetch qualifications
+        fetch('/api/qualifications')
+            .then(response => response.json())
+            .then(data => {
+                const list = document.getElementById('qualification-list');
+                data.forEach(qual => {
+                    const li = document.createElement('li');
+                    li.textContent = qual.name; // assuming there's a "name" field
+                    list.appendChild(li);
+                });
+            });
+
+        // Show edit form when clicking the Edit button
+        document.getElementById('edit-qual-btn').addEventListener('click', function() {
+            document.getElementById('qualifications-info').style.display = 'none';
+            document.getElementById('editQualificationForm').style.display = 'block';
+        });
+
+        // Handle form submission
+        document.getElementById('editQualificationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const updatedQualification = {
+                id: 1, // Assuming you know the ID
+                name: document.getElementById('qualification').value
+            };
+            fetch('/api/qualifications', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(updatedQualification)
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert('Qualification updated successfully!');
+                location.reload(); // Reload to show updated info
+            });
+        });
+
+        // Cancel editing
+        document.getElementById('cancel-qual-btn').addEventListener('click', function() {
+            document.getElementById('editQualificationForm').style.display = 'none';
+            document.getElementById('qualifications-info').style.display = 'block';
+        });
+    });
+    </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/styles.css">
+    <title>Edit Work Experience</title>
+</head>
+<body>
+    <header>
+        <h1>Edit Work Experience</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="personal.html">Personal Info</a></li>
+                <li><a href="qualifications.html">Qualifications</a></li>
+                <li><a href="work.html">Work Experience</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section id="work-info">
+            <h2>Your Work Experience</h2>
+            <ul id="work-list"></ul>
+            <button id="edit-work-btn">Edit</button>
+        </section>
+
+        <form id="editWorkForm" style="display:none;">
+            <input type="text" name="job" id="job" placeholder="Job Title" required>
+            <input type="text" name="company" id="company" placeholder="Company Name" required>
+            <textarea name="description" id="description" placeholder="Job Description" required></textarea>
+            <button type="submit">Update</button>
+            <button type="button" id="cancel
+body {
+    background-image: url('path/to/your/image.jpg'); /* Replace with your image path */
+    background-size: cover; /* This ensures the image covers the entire background */
+    background-position: center; /* Center the image */
+    color: white; /* Change text color for better visibility */
+    font-family: Arial, sans-serif; /* Set a font for better aesthetics */
+}
+
+header {
+    background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background for header */
+    padding: 20px;
+}
+
+main {
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background for main content */
+    padding: 20px;
+    border-radius: 10px; /* Rounded corners */
+}
+
+body {
+    background-image: url('images/background.jpg'); /* Adjust the path */
+    background-size: cover;
+    background-position: center;
+    color: white;
+    font-family: Arial, sans-serif;
+}
+
+header {
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 20px;
+}
+
+main {
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    border-radius: 10px;
+}
+
+/* Additional styles for other elements */
+
